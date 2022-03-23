@@ -9,32 +9,25 @@ const Shop = () => {
     const [cart, setCart] = useState([]);
 
     useEffect(() => {
-        console.log('products load before fetch')
         fetch('products.json')
         .then(res => res.json())
-        .then(data => {
-            setProducts(data);
-            // console.log('products loaded')
-        });
+        .then(data => setProducts(data));
 
     }, []);
 
-    useEffect( () => {
-        console.log('Local Storage first line', products)
+    useEffect(() => {
         const storedCart = getStoredCart();
         const savedCart = [];
         for(const id in storedCart){
-            const addedProduct = products.find(product=> product.id === id);
+            const addedProduct = products.find(product => product.id === id);
             if(addedProduct){
                 const quantity = storedCart[id];
                 addedProduct.quantity = quantity;
-                 savedCart.push(addedProduct);
+                savedCart.push(addedProduct);
             }
         }
         setCart(savedCart);
-        // console.log('Local Storage finished')
     }, [products])
-
 
     const handleAddToCart= (product) => {
        // console.log(product);
